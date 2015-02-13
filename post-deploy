@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+
+volumes=$(dokku volume:list $1)
+
+if [[ $volumes = "" ]]; then
+	echo "-----> Adding /app/data persistent volume to app"
+	dokku volume:add "$1" /app/data
+else 
+	echo "-----> /app/data is already set to be persistent"
+fi
